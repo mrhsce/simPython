@@ -6,19 +6,22 @@ class Entity(object):
 
     idList = []
     
-    def __init__(self, Type,id=0):
+    def __init__(self, Type, id=0, delegator=0, inputId=0, outputId=0):
         self.type = Type
         assert(id not in Entity.idList)
         self.id = id
         Entity.idList.append(id)   #Id should be unique so it is added to idList to hold it
+        self.inputId = inputId
+        self.outputId = outputId
+        self.delegator = delegator
+        self.scheduleList = []  #This list is for storing the list of works that this entity should do when it is run
+        
         #self.
         pass
     
-    
-    
+        
     def do(self):
-        while SimSystem.is_sim_running():
-            pass
+        pass
 
 class Queue(Entity):
 
