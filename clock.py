@@ -19,7 +19,7 @@ def runFunc(txt):
     print txt
 
 
-def clockGenarator(interface, frequency, runFunc):
+def clockGenerator(interface, frequency, runFunc):
     runFunc(interface.time)
     time.sleep(1.0/frequency)    
     while interface.running:
