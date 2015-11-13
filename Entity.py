@@ -1,4 +1,4 @@
-""" Here all the entity classes, their attributes and the relationship between them is defined""" 
+from SimSystem import SimSystem
 
 
 class Entity(object):
@@ -7,34 +7,6 @@ class Entity(object):
         self.kind = kind
         pass
 
-
-class Dispose:
-
-    def __init__(self):
-        pass
-
-
-class Process:
-
-    def __init__(self):
-        pass
-
-
-class Decide:
-
-    def __init__(self):
-        pass
-
-
-class Queue:
-
-    def __init__(self):
-        pass
-
-
-class Customer:
-
-    def __init__(self):
-        pass
-
-
+    def do(self):
+        while SimSystem.is_sim_running():
+            pass
