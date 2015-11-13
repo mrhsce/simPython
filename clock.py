@@ -22,7 +22,7 @@ class ClockInterface:
 
 
 
-def clockGenarator(runFunc, frequency=1, interface=ClockInterface()):
+def clockGenerator(runFunc, frequency=1, interface=ClockInterface()):
     runFunc()
     time.sleep(1.0/frequency)    
     while not interface.reachedMax():

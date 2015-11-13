@@ -3,69 +3,103 @@ from abc import ABCMeta, abstractmethod
 
 
 class Entity(object):
-
+    __metaclass__ = ABCMeta
     idList = []
     
-    def __init__(self, Type, id=0, delegator=0, inputId=0, outputId=0):
+    def __init__(self, Type, id, delegator, inputId, outputId):
         self.type = Type
         assert(id not in Entity.idList)
         self.id = id
-        Entity.idList.append(id)   #Id should be unique so it is added to idList to hold it
+        Entity.idList.append(id)   # Id should be unique so it is added to idList to hold it
         self.inputId = inputId
         self.outputId = outputId
         self.delegator = delegator
-        self.scheduleList = []  #This list is for storing the list of works that this entity should do when it is run
-        
-        #self.
+        self.scheduleList = []  # This list is for storing the list of works that this entity should do when it is run
         pass
-    
-        
+
+    @abstractmethod
     def do(self):
         pass
 
+    @abstractmethod
+    def takeCustomer(self):
+        pass
+
+    @abstractmethod
+    def releaseCustomer(self):
+        pass
+
+    def __del__(self):
+        Entity.idList.remove(self.id)
+
+
 class Queue(Entity):
 
-    def __init__(self, kind):
-        super(Queue, self).__init__(kind)
+    def __init__(self, Type, id, delegator, inputId, outputId):
+        super(Queue, self).__init__(Type, id, delegator, inputId, outputId)
 
         pass
 
-
-class Customer(Entity):
-
-    def __init__(self):
+    def do(self):
         pass
-    
+
+    def takeCustomer(self):
+        pass
+
+    def releaseCustomer(self):
+        pass
+
+
 class Dispose(Entity):
 
-    def __init__(self, kind, name, is_record):
-        super(Dispose, self).__init__(kind)
+    def __init__(self, Type, id, delegator, inputId, outputId, name, is_record):
+        super(Dispose, self).__init__(Type, id, delegator, inputId, outputId)
         self.name = name
         self.is_record = is_record
 
     def do(self):
         while SimSystem.is_sim_running():
             pass
-    
-    
+
+    def takeCustomer(self):
+        pass
+
+    def releaseCustomer(self):
+        pass
+
+
 class Decide(Entity):
 
-    def __init__(self, kind):
-        super(Decide, self).__init__(kind)
+    def __init__(self, Type, id, delegator, inputId, outputId):
+        super(Decide, self).__init__(Type, id, delegator, inputId, outputId)
 
         pass    
-    
+
+    def do(self):
+        pass
+
+    def takeCustomer(self):
+        pass
+
+    def releaseCustomer(self):
+        pass
 
 
 class Create(Entity):
 
-    def __init__(self, entity_type, name, create_type):
-        super(Create, self).__init__(entity_type)
+    def __init__(self, Type, id, delegator, inputId, outputId, name, create_type):
+        super(Create, self).__init__(Type, id, delegator, inputId, outputId)
         self.name = name
         self.create_type = create_type
 
     def do(self):
         self.create_type.do()
+
+    def takeCustomer(self):
+        pass
+
+    def releaseCustomer(self):
+        pass
 
 
 class CreateType(object):
@@ -100,5 +134,5 @@ class RandomType(CreateType):
         pass
     
 r = RandomType("h", 0, 1, -1)
-c = Create("Entity1", "create1", r)   
-    
+c = Create("Entity1", 0, 0, 0 , 0, "create1", r)
+del c
