@@ -27,7 +27,8 @@ class UniformDis(StatDis):
 class NormalDis(StatDis):
 
     def __init__(self, mean, std):
-        pass
+        self.mean = mean
+        self.std = std
 
     def generate(self):
         pass
