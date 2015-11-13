@@ -2,24 +2,27 @@
     then notifies the executer"""
 import time    
 
+
 class ClockInterface:
     def __init__(self):
         self.time = 0 
-        self.running = True 
+        self.running = True
+
     def increment(self):
-        self.time += 1  
+        self.time += 1
+
     def stop(self):
         self.running = False        
+
 
 def runFunc(txt):
     print txt
 
-def clockGenarator(interface,frequency,runFunc):
+
+def clockGenarator(interface, frequency, runFunc):
     runFunc(interface.time)
     time.sleep(1.0/frequency)    
-    while(interface.running):
+    while interface.running:
         interface.increment()
         runFunc(interface.time)
         time.sleep(1.0/frequency)  
-         
-        
