@@ -6,19 +6,18 @@ class Entity(object):
 
     idList = []
     
-    def __init__(self, Type,id=0):
+    def __init__(self, Type, id=0):
         self.type = Type
         assert(id not in Entity.idList)
         self.id = id
-        Entity.idList.append(id)   #Id should be unique so it is added to idList to hold it
-        #self.
+        Entity.idList.append(id)   # Id should be unique so it is added to idList to hold it
+        # self.
         pass
-    
-    
     
     def do(self):
         while SimSystem.is_sim_running():
             pass
+
 
 class Queue(Entity):
 
@@ -32,7 +31,8 @@ class Customer(Entity):
 
     def __init__(self):
         pass
-    
+
+
 class Dispose(Entity):
 
     def __init__(self, kind, name, is_record):
@@ -51,7 +51,6 @@ class Decide(Entity):
         super(Decide, self).__init__(kind)
 
         pass    
-    
 
 
 class Create(Entity):
@@ -98,4 +97,3 @@ class RandomType(CreateType):
     
 r = RandomType("h", 0, 1, -1)
 c = Create("Entity1", "create1", r)   
-    
