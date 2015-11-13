@@ -1,18 +1,28 @@
 """ This is the main part of the engine that using all the other parts runs the simulation """
-
+from clock import *
 
 class SimSystem(object):
-    running = False
+    
+    def __init__(self, statisticsCollector):        
+        self.entityList = []
+        self.isRunning = False
+        self.time = 0
+        self.logger = statisticsCollector
+   
+    def setupEntityList(self):
+        pass
+        
+    def advanceOneClock(self):
+        pass
+    
+    def runTerminatedByClock(self,clockNum):
+        clockInterface = ClockInterface()
+        clockInterface.setMaxClock(clockNum)
+        clockGenarator(self.advanceOneClock,1,0)
+    
+    def runTerminatedByCount(self):
+        pass
+        
 
-    @staticmethod
-    def strat_sim():
-        SimSystem.running = True
-
-    @staticmethod
-    def stop_sim():
-        SimSystem.running = False
-
-    @staticmethod
-    def is_sim_running():
-        return SimSystem.running
+    
 

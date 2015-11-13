@@ -2,7 +2,7 @@ import thread
 from clock import *
 from duplicity.asyncscheduler import threading
 
-threa1Interface = ClockInterface()
+thread1Interface = ClockInterface()
 thread1 = thread.start_new_thread(clockGenarator, (threa1Interface, 100, runFunc))
 
 while True:

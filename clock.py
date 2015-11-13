@@ -7,22 +7,25 @@ class ClockInterface:
     def __init__(self):
         self.time = 0 
         self.running = True
-
+    
+    def setMaxClock(self, maximum):
+        self.maxClock = maximum    
+    
     def increment(self):
         self.time += 1
 
-    def stop(self):
-        self.running = False        
+    def reachedMax(self):
+        if(self.time >= self.maxClock):
+            return True
+        else:
+            return False        
 
 
-def runFunc(txt):
-    print txt
 
-
-def clockGenarator(interface, frequency, runFunc):
-    runFunc(interface.time)
+def clockGenarator(runFunc, frequency=1, interface=ClockInterface()):
+    runFunc()
     time.sleep(1.0/frequency)    
-    while interface.running:
+    while not interface.reachedMax():
         interface.increment()
-        runFunc(interface.time)
+        runFunc()
         time.sleep(1.0/frequency)  
