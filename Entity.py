@@ -1,5 +1,7 @@
 from executive import SimSystem
 from abc import ABCMeta, abstractmethod
+from statisticalDistributions import *
+from Process import *
 
 
 class Entity(object):
@@ -29,16 +31,19 @@ class Entity(object):
     def releaseCustomer(self):
         pass
 
+    @abstractmethod
+    def conect(self, other):
+        pass
+
     def __del__(self):
         Entity.idList.remove(self.id)
 
 
 class Queue(Entity):
 
-    def __init__(self, Type, id, delegator, inputId, outputId):
+    def __init__(self, Type, id, delegator, inputId, outputId, name):
         super(Queue, self).__init__(Type, id, delegator, inputId, outputId)
-
-        pass
+        self.name = name
 
     def do(self):
         pass
@@ -47,6 +52,9 @@ class Queue(Entity):
         pass
 
     def releaseCustomer(self):
+        pass
+
+    def conect(self, other):
         pass
 
 
@@ -67,13 +75,16 @@ class Dispose(Entity):
     def releaseCustomer(self):
         pass
 
+    def conect(self, other):
+        pass
+
 
 class Decide(Entity):
 
-    def __init__(self, Type, id, delegator, inputId, outputId):
+    def __init__(self, Type, id, delegator, inputId, outputId, name, expression):
         super(Decide, self).__init__(Type, id, delegator, inputId, outputId)
-
-        pass    
+        self.name = name
+        self.expression = expression
 
     def do(self):
         pass
@@ -84,13 +95,23 @@ class Decide(Entity):
     def releaseCustomer(self):
         pass
 
+    def calculate(self):
+        return bool(eval(self.expression))
+
+    def conect(self, other):
+
+        # other is array [YesEntity , NoEntity]
+        self.outputId.append(other[0].id)
+        self.outputId.append(other[1].id)
+        other.inputId.append(self.id)
+
 
 class Create(Entity):
 
-    def __init__(self, Type, id, delegator, inputId, outputId, name, create_type):
+    def __init__(self, Type, id, delegator, inputId, outputId, name, createStatDis):
         super(Create, self).__init__(Type, id, delegator, inputId, outputId)
         self.name = name
-        self.create_type = create_type
+        self.createStatDis = createStatDis
 
     def do(self):
         self.create_type.do()
@@ -101,38 +122,8 @@ class Create(Entity):
     def releaseCustomer(self):
         pass
 
+    def conect(self, other):
+        # other is a Create object
+        self.outputId.append(other.id)
+        other.inputId.append(self.id)
 
-class CreateType(object):
-    __metaclass__ = ABCMeta
-
-    def __init__(self, time_unit, first_creation, entity_per_arrival, max_arrival):
-        self.time_unit = time_unit
-        self.first_creation = first_creation
-        self.entity_per_arrival = entity_per_arrival
-        self.max_arrival = max_arrival
-
-    @abstractmethod
-    def do(self):
-        print "Error: your child class must have start method!!"
-
-
-class ConstantType(CreateType):
-
-    def __init__(self, time_unit, first_creation, entity_per_arrival, max_arrival):
-        super(ConstantType, self).__init__(time_unit, first_creation, entity_per_arrival, max_arrival)
-
-    def do(self):
-        pass
-
-
-class RandomType(CreateType):
-
-    def __init__(self, time_unit, first_creation, entity_per_arrival, max_arrival):
-        super(RandomType, self).__init__(time_unit, first_creation, entity_per_arrival, max_arrival)
-
-    def do(self):
-        pass
-    
-r = RandomType("h", 0, 1, -1)
-c = Create("Entity1", 0, 0, 0 , 0, "create1", r)
-del c
