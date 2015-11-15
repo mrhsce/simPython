@@ -1,8 +1,5 @@
-from executive import SimSystem
 from abc import ABCMeta, abstractmethod
 from statisticalDistributions import *
-from Process import *
-from Event import *
 
 
 class Entity(object):
@@ -55,91 +52,9 @@ class Queue(Entity):
 """
 
 
-class Dispose(Entity):
-
-    def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, is_record):
-        super(Dispose, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
-        self.name = name
-        self.count = 0
-        self.is_record = is_record
-
-    def takeCustomer(self):
-        self.count += 1
-        print "Entity :" + self.name + " takes one customer"
-
-    def releaseCustomer(self):
-        pass
-
-    def connect(self, other):
-        pass
 
 
-class Decide(Entity):
-
-    def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, expression):
-        super(Decide, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
-        self.name = name
-        self.expression = expression
-
-    def takeCustomer(self):
-        print "Entity :" + self.name + " takes one customer"
-        self.releaseCustomer()
-
-    def releaseCustomer(self):
-        if self.calculate():
-            self.outputPointer[0].takeCustomer()
-            print "Entity :" + self.name + " release one customer in True flow"
-
-        else:
-            self.outputPointer[1].takeCustomer()
-            print "Entity :" + self.name + " release one customer in False flow"
-
-    def calculate(self):
-        return bool(eval(self.expression))
-
-    def connect(self, other):
-        # other is array [YesEntity , NoEntity]
-        self.outputPointer.append(other[0])
-        self.outputPointer.append(other[1])
-        other.inputPointer.append(self)
 
 
-class Create(Entity):
 
-    def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, createStatDis):
-        super(Create, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
-        self.name = name
 
-        if createStatDis == 0:
-            self.createStatDis = UniformDis(1, 10)
-        else:
-            self.createStatDis = createStatDis
-
-        self.count = 0
-        self.maxCount = -1
-
-    def seMaxCount(self, i):
-        self.maxCount = i
-
-    def takeCustomer(self):
-        pass
-
-    def createCustomer(self):
-        if self.maxCount == -1 or self.count < self.maxCount:
-            print "Entity :" + self.name + "that is Create Entity have been made " + self.count + "customer"
-            e = Event(self, self.createCustomer, 0,
-                          int(round(self.simSystem.getTime() + self.createStatDis.generate())))
-            self.simSystem.addEvent(e)
-            self.count += 1
-
-    def releaseCustomer(self):
-        print "Entity :" + self.name + "releaseCustomer"
-        self.createCustomer()
-        self.outputPointer[0].takeCustomer()
-
-    def connect(self, other):
-        self.outputPointer.append(other)
-        other.inputPointer.append(self)
-
-    def setStatDis(self, createStatDis):
-        self.createStatDis = createStatDis

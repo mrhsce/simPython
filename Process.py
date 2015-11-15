@@ -1,5 +1,5 @@
 from Entity import Entity
-from statisticalDistributions import *
+from Event import Event
 
 
 class Process(Entity):
@@ -8,16 +8,16 @@ class Process(Entity):
         super(Process, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
         self.name = name
         self.queue = 0
-        if customerDelayStatDis == 0:
-            self.customerDelayStatDis = UniformDis(1, 10)
-        else:
-            self.customerDelayStatDis = customerDelayStatDis
+        self.customerDelayStatDis = customerDelayStatDis
 
     def takeCustomer(self):
-        pass
+        e = Event(self, self.releaseCustomer, 0,
+                                        int(round(self.simSystem.getTime() + self.customerDelayStatDis.generate())))
+        self.simSystem.addEvent(e)
 
     def releaseCustomer(self):
-        pass
+        print "Entity :" + self.name + "releaseCustomer"
+        self.outputPointer[0].takeCustomer()
 
     def connect(self, other):
         self.outputPointer.append(other)
