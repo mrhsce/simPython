@@ -1,28 +1,26 @@
 """ This is the main part of the engine that using all the other parts runs the simulation """
 from clock import *
+import Singleton
 
-
+@Singleton
 class SimSystem(object):
     
-    def __init__(self, statisticsCollector):        
+    def __init__(self, simName,statisticsCollector=0):        
         self.entityList = []
-        self.isRunning = False
+        self.simName = simName
         self.time = 0
         self.logger = statisticsCollector
-   
-    def setupEntityList(self):
-        pass
         
-    def advanceOneClock(self):
-        pass
+    def add(self, entity):
+        self.entityList.append(entity)
+        
+    def run(self):
+        for i in self.entityList:
+            if(i.getType() == "Dispose"):
+                
+                
+   
     
-    def runTerminatedByClock(self,clockNum):
-        clockInterface = ClockInterface()
-        clockInterface.setMaxClock(clockNum)
-        clockGenerator(self.advanceOneClock, 1, 0)
-    
-    def runTerminatedByCount(self):
-        pass
         
 
     

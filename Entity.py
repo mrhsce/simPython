@@ -8,8 +8,9 @@ class Entity(object):
     __metaclass__ = ABCMeta
     # idList = []
     
-    def __init__(self, Type, id, inputPointer, outputPointer):
+    def __init__(self, simSystem,Type, id, inputPointer, outputPointer):
         self.type = Type
+        self.parent = simSystem
         # assert(id not in Entity.idList)
         self.id = id
         # Entity.idList.append(id)   # Id should be unique so it is added to idList to hold it
