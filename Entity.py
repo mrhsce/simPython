@@ -15,7 +15,7 @@ class Entity(object):
         self.id = id
         # Entity.idList.append(id)   # Id should be unique so it is added to idList to hold it
         self.inputPointer = inputPointer
-        self.outputPointer = outputPointer
+        self.outputPointer = outputPointer        
 
     @abstractmethod
     def takeCustomer(self):

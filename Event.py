@@ -1,4 +1,3 @@
-from Singleton import *
 import heapq
 
 
@@ -11,7 +10,7 @@ class Event(object):
         self.execTime = execTime
 
 
-@Singleton
+
 class EventList:
     def __init__(self):
         self.queue = PriorityQueue()
