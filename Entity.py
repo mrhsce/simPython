@@ -2,15 +2,16 @@ from executive import SimSystem
 from abc import ABCMeta, abstractmethod
 from statisticalDistributions import *
 from Process import *
+from Event import *
 
 
 class Entity(object):
     __metaclass__ = ABCMeta
     # idList = []
     
-    def __init__(self, simSystem,Type, id, inputPointer, outputPointer):
+    def __init__(self, simSystem, Type, id, inputPointer, outputPointer):
         self.type = Type
-        self.parent = simSystem
+        self.simSystem = simSystem
         # assert(id not in Entity.idList)
         self.id = id
         # Entity.idList.append(id)   # Id should be unique so it is added to idList to hold it
@@ -56,8 +57,8 @@ class Queue(Entity):
 
 class Dispose(Entity):
 
-    def __init__(self, Type, id, inputPointer, outputPointer, name, is_record):
-        super(Dispose, self).__init__(Type, id, inputPointer, outputPointer)
+    def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, is_record):
+        super(Dispose, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
         self.name = name
         self.is_record = is_record
 
@@ -73,16 +74,19 @@ class Dispose(Entity):
 
 class Decide(Entity):
 
-    def __init__(self, Type, id, inputPointer, outputPointer, name, expression):
-        super(Decide, self).__init__(Type, id, inputPointer, outputPointer)
+    def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, expression):
+        super(Decide, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
         self.name = name
         self.expression = expression
 
     def takeCustomer(self):
-        pass
+        self.releaseCustomer()
 
     def releaseCustomer(self):
-        pass
+        if self.calculate():
+            self.outputPointer[0].takeCustomer()
+        else:
+            self.outputPointer[1].takeCustomer()
 
     def calculate(self):
         return bool(eval(self.expression))
@@ -96,8 +100,8 @@ class Decide(Entity):
 
 class Create(Entity):
 
-    def __init__(self, Type, id, inputPointer, outputPointer, name, createStatDis):
-        super(Create, self).__init__(Type, id, inputPointer, outputPointer)
+    def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, createStatDis):
+        super(Create, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
         self.name = name
 
         if createStatDis == 0:
@@ -108,8 +112,13 @@ class Create(Entity):
     def takeCustomer(self):
         pass
 
+    def createCustomer(self):
+        e = Event(self, self.createCustomer, 0, self.simSystem.getTime() + self.createStatDis.generate())
+        self.simSystem.addEvent(e)
+
     def releaseCustomer(self):
-        pass
+        self.createCustomer()
+        self.outputPointer.takeCustomer()
 
     def connect(self, other):
         self.outputPointer.append(other)

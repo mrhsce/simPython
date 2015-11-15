@@ -4,8 +4,8 @@ from statisticalDistributions import *
 
 class Process(Entity):
 
-    def __init__(self, Type, id, inputPointer, outputPointer, name, customerDelayStatDis):
-        super(Process, self).__init__(Type, id, inputPointer, outputPointer)
+    def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, customerDelayStatDis):
+        super(Process, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
         self.name = name
         self.queue = 0
         if customerDelayStatDis == 0:
