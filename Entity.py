@@ -60,10 +60,12 @@ class Dispose(Entity):
     def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, is_record):
         super(Dispose, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
         self.name = name
+        self.count = 0
         self.is_record = is_record
 
     def takeCustomer(self):
-        pass
+        self.count += 1
+        print "Entity :" + self.name + " takes one customer"
 
     def releaseCustomer(self):
         pass
@@ -80,13 +82,17 @@ class Decide(Entity):
         self.expression = expression
 
     def takeCustomer(self):
+        print "Entity :" + self.name + " takes one customer"
         self.releaseCustomer()
 
     def releaseCustomer(self):
         if self.calculate():
             self.outputPointer[0].takeCustomer()
+            print "Entity :" + self.name + " release one customer in True flow"
+
         else:
             self.outputPointer[1].takeCustomer()
+            print "Entity :" + self.name + " release one customer in False flow"
 
     def calculate(self):
         return bool(eval(self.expression))
@@ -120,12 +126,14 @@ class Create(Entity):
 
     def createCustomer(self):
         if self.maxCount == -1 or self.count < self.maxCount:
+            print "Entity :" + self.name + "that is Create Entity have been made " + self.count + "customer"
             e = Event(self, self.createCustomer, 0,
                           int(round(self.simSystem.getTime() + self.createStatDis.generate())))
             self.simSystem.addEvent(e)
             self.count += 1
 
     def releaseCustomer(self):
+        print "Entity :" + self.name + "releaseCustomer"
         self.createCustomer()
         self.outputPointer[0].takeCustomer()
 
