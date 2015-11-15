@@ -20,6 +20,9 @@ class Entity(object):
     def takeCustomer(self):
         pass
 
+    def getType(self):
+        return self.type
+
     @abstractmethod
     def releaseCustomer(self):
         pass
@@ -29,7 +32,8 @@ class Entity(object):
         pass
 
 
-"""class Queue(Entity):
+"""
+class Queue(Entity):
 
     def __init__(self, Type, id, delegator, inputId, outputId, name):
         super(Queue, self).__init__(Type, id, delegator, inputId, outputId)
@@ -46,7 +50,6 @@ class Entity(object):
 
     def conect(self, other):
         pass
-
 """
 
 
