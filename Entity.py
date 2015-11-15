@@ -109,16 +109,25 @@ class Create(Entity):
         else:
             self.createStatDis = createStatDis
 
+        self.count = 0
+        self.maxCount = -1
+
+    def seMaxCount(self, i):
+        self.maxCount = i
+
     def takeCustomer(self):
         pass
 
     def createCustomer(self):
-        e = Event(self, self.createCustomer, 0, self.simSystem.getTime() + self.createStatDis.generate())
-        self.simSystem.addEvent(e)
+        if self.maxCount == -1 or self.count < self.maxCount:
+            e = Event(self, self.createCustomer, 0,
+                          int(round(self.simSystem.getTime() + self.createStatDis.generate())))
+            self.simSystem.addEvent(e)
+            self.count += 1
 
     def releaseCustomer(self):
         self.createCustomer()
-        self.outputPointer.takeCustomer()
+        self.outputPointer[0].takeCustomer()
 
     def connect(self, other):
         self.outputPointer.append(other)
