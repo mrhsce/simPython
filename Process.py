@@ -1,14 +1,16 @@
 from Entity import Entity
+from statisticalDistributions import *
 
 
 class Process(Entity):
 
-    def __init__(self, Type, id, delegator, inputId, outputId, name):
-        super(Process, self).__init__(Type, id, delegator, inputId, outputId)
+    def __init__(self, Type, id, inputPointer, outputPointer, name, customerDelayStatDis):
+        super(Process, self).__init__(Type, id, inputPointer, outputPointer)
         self.name = name
-
-    def do(self):
-        pass
+        if customerDelayStatDis == 0:
+            self.customerDelayStatDis = UniformDis(1, 10)
+        else:
+            self.customerDelayStatDis = customerDelayStatDis
 
     def takeCustomer(self):
         pass
@@ -16,7 +18,9 @@ class Process(Entity):
     def releaseCustomer(self):
         pass
 
-    def conect(self, other):
-        # other is a Process object
-        self.outputId.append(other.id)
-        other.inputId.append(self.id)
+    def connect(self, other):
+        self.outputPointer.append(other)
+        other.inputPointer.append(self)
+
+    def setStatDis(self, customerDelayStatDis):
+        self.customerDelayStatDis = customerDelayStatDis

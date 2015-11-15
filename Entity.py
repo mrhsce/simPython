@@ -6,22 +6,15 @@ from Process import *
 
 class Entity(object):
     __metaclass__ = ABCMeta
-    idList = []
+    # idList = []
     
-    def __init__(self, Type, id, delegator, inputId, outputId):
+    def __init__(self, Type, id, inputPointer, outputPointer):
         self.type = Type
-        assert(id not in Entity.idList)
+        # assert(id not in Entity.idList)
         self.id = id
-        Entity.idList.append(id)   # Id should be unique so it is added to idList to hold it
-        self.inputId = inputId
-        self.outputId = outputId
-        self.delegator = delegator
-        self.scheduleList = []  # This list is for storing the list of works that this entity should do when it is run
-        pass
-
-    @abstractmethod
-    def do(self):
-        pass
+        # Entity.idList.append(id)   # Id should be unique so it is added to idList to hold it
+        self.inputPointer = inputPointer
+        self.outputPointer = outputPointer
 
     @abstractmethod
     def takeCustomer(self):
@@ -32,14 +25,11 @@ class Entity(object):
         pass
 
     @abstractmethod
-    def conect(self, other):
+    def connect(self, other):
         pass
 
-    def __del__(self):
-        Entity.idList.remove(self.id)
 
-
-class Queue(Entity):
+"""class Queue(Entity):
 
     def __init__(self, Type, id, delegator, inputId, outputId, name):
         super(Queue, self).__init__(Type, id, delegator, inputId, outputId)
@@ -57,17 +47,15 @@ class Queue(Entity):
     def conect(self, other):
         pass
 
+"""
+
 
 class Dispose(Entity):
 
-    def __init__(self, Type, id, delegator, inputId, outputId, name, is_record):
-        super(Dispose, self).__init__(Type, id, delegator, inputId, outputId)
+    def __init__(self, Type, id, inputPointer, outputPointer, name, is_record):
+        super(Dispose, self).__init__(Type, id, inputPointer, outputPointer)
         self.name = name
         self.is_record = is_record
-
-    def do(self):
-        while SimSystem.is_sim_running():
-            pass
 
     def takeCustomer(self):
         pass
@@ -75,19 +63,16 @@ class Dispose(Entity):
     def releaseCustomer(self):
         pass
 
-    def conect(self, other):
+    def connect(self, other):
         pass
 
 
 class Decide(Entity):
 
-    def __init__(self, Type, id, delegator, inputId, outputId, name, expression):
-        super(Decide, self).__init__(Type, id, delegator, inputId, outputId)
+    def __init__(self, Type, id, inputPointer, outputPointer, name, expression):
+        super(Decide, self).__init__(Type, id, inputPointer, outputPointer)
         self.name = name
         self.expression = expression
-
-    def do(self):
-        pass
 
     def takeCustomer(self):
         pass
@@ -98,23 +83,23 @@ class Decide(Entity):
     def calculate(self):
         return bool(eval(self.expression))
 
-    def conect(self, other):
-
+    def connect(self, other):
         # other is array [YesEntity , NoEntity]
-        self.outputId.append(other[0].id)
-        self.outputId.append(other[1].id)
-        other.inputId.append(self.id)
+        self.outputPointer.append(other[0])
+        self.outputPointer.append(other[1])
+        other.inputPointer.append(self)
 
 
 class Create(Entity):
 
-    def __init__(self, Type, id, delegator, inputId, outputId, name, createStatDis):
-        super(Create, self).__init__(Type, id, delegator, inputId, outputId)
+    def __init__(self, Type, id, inputPointer, outputPointer, name, createStatDis):
+        super(Create, self).__init__(Type, id, inputPointer, outputPointer)
         self.name = name
-        self.createStatDis = createStatDis
 
-    def do(self):
-        self.create_type.do()
+        if createStatDis == 0:
+            self.createStatDis = UniformDis(1, 10)
+        else:
+            self.createStatDis = createStatDis
 
     def takeCustomer(self):
         pass
@@ -122,8 +107,9 @@ class Create(Entity):
     def releaseCustomer(self):
         pass
 
-    def conect(self, other):
-        # other is a Create object
-        self.outputId.append(other.id)
-        other.inputId.append(self.id)
+    def connect(self, other):
+        self.outputPointer.append(other)
+        other.inputPointer.append(self)
 
+    def setStatDis(self, createStatDis):
+        self.createStatDis = createStatDis
