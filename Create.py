@@ -12,6 +12,8 @@ class Create(Entity):
         self.count = 0
         self.maxCount = -1
 
+        print "Creator Entity: " + self.name + " has been initialized "
+
     def setMaxCount(self, i):
         self.maxCount = i
 
@@ -20,14 +22,14 @@ class Create(Entity):
 
     def createCustomer(self):
         if self.maxCount == -1 or self.count < self.maxCount:
-            print "Entity :" + self.name + "that is Create Entity have been made " + str(self.count) + "customer"
+            print "Creator Entity: " + self.name + " has Created " + str(self.count + 1) + " customer(s)"
             e = Event(self, self.releaseCustomer, 0,
                           int(round(self.simSystem.getTime() + self.createStatDis.generate())))
             self.simSystem.addEvent(e)
             self.count += 1
 
     def releaseCustomer(self):
-        print "Entity :" + self.name + "releaseCustomer"
+        print "Creator Entity: " + self.name + " has released one Customer"
         self.createCustomer()
         self.outputPointer[0].takeCustomer()
 

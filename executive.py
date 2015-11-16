@@ -5,14 +5,21 @@ from SimSystem import *
 
 s = SimSystem("sim1")
 c = generateCreateEntity(s, "Create", 1, "Create")
-p = generateProcessEntity(s, "Process", 2, "proc")
+decide = generateDecideEntity(s, "Decide", 5, "decide", "2*(5-1) == 8")
+p1 = generateProcessEntity(s, "Process", 4, "proc1")
+p2 = generateProcessEntity(s, "Process", 2, "proc2")
 d = generateDisposeEntity(s, "Dispose", 3, "dispose", True)
 c.setMaxCount(100)
-c.connect(p)
-p.connect(d)
+
+c.connect(decide)
+decide.connect([p1, p2])
+p1.connect(d)
+p2.connect(d)
 
 s.addEntity(c)
-s.addEntity(p)
+s.addEntity(decide)
+s.addEntity(p1)
+s.addEntity(p2)
 s.addEntity(d)
 
 s.run()

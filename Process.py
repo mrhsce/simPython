@@ -14,9 +14,10 @@ class Process(Entity):
         e = Event(self, self.releaseCustomer, 0,
                                         int(round(self.simSystem.getTime() + self.customerDelayStatDis.generate())))
         self.simSystem.addEvent(e)
+        print "Process Entity: " + self.name + " has taken one Customer"
 
     def releaseCustomer(self):
-        print "Entity :" + self.name + "releaseCustomer"
+        print "Process Entity: " + self.name + " has released one Customer"
         self.outputPointer[0].takeCustomer()
 
     def connect(self, other):

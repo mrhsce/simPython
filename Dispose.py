@@ -11,7 +11,7 @@ class Dispose(Entity):
 
     def takeCustomer(self):
         self.count += 1
-        print "Entity :" + self.name + " takes one customer"
+        print "Dispose Entity: " + self.name + " takes one customer"
 
     def releaseCustomer(self):
         pass

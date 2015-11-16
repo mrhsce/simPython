@@ -25,12 +25,12 @@ class SimSystem:
         return self.time
 
     def run(self):
+        print "The simulation has started"
         for i in self.entityList:
             if i.getType() == "Create":
                 i.createCustomer()
-        print "The simulation has started"
 
-        while (self.eventList.isEmpty() != True):
+        while self.eventList.isEmpty() != True:
             nextEvent = self.eventList.pop()
             self.time = nextEvent.execTime
             if nextEvent.params == 0:
