@@ -12,7 +12,7 @@ class Create(Entity):
         self.count = 0
         self.maxCount = -1
 
-    def seMaxCount(self, i):
+    def setMaxCount(self, i):
         self.maxCount = i
 
     def takeCustomer(self):

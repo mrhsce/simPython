@@ -30,7 +30,7 @@ class SimSystem:
                 i.createCustomer()
         print "The simulation has started"
 
-        while self.eventList.len() > 0:
+        while (self.eventList.isEmpty() != True):
             nextEvent = self.eventList.pop()
             self.time = nextEvent.execTime
             if nextEvent.params == 0:

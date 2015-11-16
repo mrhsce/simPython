@@ -4,9 +4,10 @@ from SimSystem import *
 
 
 s = SimSystem("sim1")
-c = generateCreateEntity(s, "Create", 1, "Cr1")
-p = generateProcessEntity(s, "Process", 2, "p")
-d = generateDisposeEntity(s, "Dispose", 3, "d", True)
+c = generateCreateEntity(s, "Create", 1, "Create")
+p = generateProcessEntity(s, "Process", 2, "proc")
+d = generateDisposeEntity(s, "Dispose", 3, "dispose", True)
+c.setMaxCount(100)
 c.connect(p)
 p.connect(d)
 
