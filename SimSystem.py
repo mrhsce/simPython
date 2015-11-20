@@ -36,7 +36,7 @@ class SimSystem:
             if nextEvent.params == 0:
                 nextEvent.funcName()   # If does not execute use the object name before
             else:
-                nextEvent.funcName()
+                nextEvent.funcName(nextEvent.params)
 
         # Here all the data should be colected for later printing
         print "Execution has been finished"
