@@ -9,6 +9,7 @@ class Process(Entity):
         self.name = name
         self.queue = 0
         self.customerDelayStatDis = customerDelayStatDis
+        self.simSystem.logger.init(self.id)
 
     def takeCustomer(self):
         delay = int(round(self.customerDelayStatDis.generate()))

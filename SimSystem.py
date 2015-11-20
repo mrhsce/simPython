@@ -4,6 +4,7 @@ from Dispose import Dispose
 from Decide import Decide
 from PriorityQueue import PriorityQueue
 from statisticalDistributions import *
+from chartDrawing import *
 
 
 class SimSystem:
@@ -39,7 +40,13 @@ class SimSystem:
                 nextEvent.funcName(nextEvent.params)
 
         # Here all the data should be colected for later printing
-        print "Execution has been finished"
+        for i in self.entityList:
+            if i.getType() == "Process":
+                tmp = self.logger.getWaiteForAnyCustomerData(i.id)
+                drawWaiteForAnyCustomer(tmp[0], tmp[1],i.name)
+
+                tmp2 = self.logger.getFrequencyForAnyWaiteData(i.id)
+                drawFrequencyForAnyWaiteData(tmp2[0], tmp2[1],i.name)
 
 
 def generateCreateEntity(simSystem, entityType, entityID, name, statDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
