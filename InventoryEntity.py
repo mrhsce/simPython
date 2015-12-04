@@ -8,13 +8,11 @@ class InventoryEntity(Entity):
     
     def __init__(self, simSystem, Type, id, inputPointer, outputPointer):
         super(InventoryEntity, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
-    
-    
+
     @abstractmethod
-    def takeOrder(self,amount):
+    def takeOrder(self, amount):
         pass
-    
+
     @abstractmethod
-    def giveOrder(self,amount):
+    def giveOrder(self, amount):
         pass
-            
