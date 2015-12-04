@@ -2,6 +2,7 @@
         it - also chart and graph drawing functionalities are here"""
 from collections import Counter
 
+
 class resultCollector(object):
     def __init__(self):
         self.dic = {}

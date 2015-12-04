@@ -1,7 +1,7 @@
-from Entity import Entity
+from QueueEntity import QueueEntity
 
 
-class Decide(Entity):
+class Decide(QueueEntity):
 
     def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, expression):
         super(Decide, self).__init__(simSystem, Type, id, inputPointer, outputPointer)

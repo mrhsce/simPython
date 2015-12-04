@@ -1,7 +1,7 @@
-from Entity import Entity
+from QueueEntity import QueueEntity
 
 
-class Dispose(Entity):
+class Dispose(QueueEntity):
 
     def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, is_record):
         super(Dispose, self).__init__(simSystem, Type, id, inputPointer, outputPointer)

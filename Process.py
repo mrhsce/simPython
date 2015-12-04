@@ -1,8 +1,8 @@
-from Entity import Entity
+from QueueEntity import QueueEntity
 from Event import Event
 
 
-class Process(Entity):
+class Process(QueueEntity):
 
     def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, customerDelayStatDis):
         super(Process, self).__init__(simSystem, Type, id, inputPointer, outputPointer)

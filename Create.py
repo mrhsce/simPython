@@ -1,8 +1,8 @@
-from Entity import Entity
+from QueueEntity import QueueEntity
 from Event import Event
 
 
-class Create(Entity):
+class Create(QueueEntity):
 
     def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, createStatDis):
         super(Create, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
