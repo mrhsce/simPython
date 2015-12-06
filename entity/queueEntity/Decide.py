@@ -1,4 +1,4 @@
-from QueueEntity import QueueEntity
+from entity.queueEntity import QueueEntity
 
 
 class Decide(QueueEntity):

@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
-from Entity import Entity
+
+from entity.Entity import Entity
 
 
 class QueueEntity(Entity):

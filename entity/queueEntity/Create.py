@@ -1,5 +1,5 @@
-from QueueEntity import QueueEntity
 from Event import Event
+from entity.queueEntity import QueueEntity
 
 
 class Create(QueueEntity):

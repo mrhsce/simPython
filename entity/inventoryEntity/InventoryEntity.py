@@ -1,6 +1,5 @@
-from abc import ABCMeta, abstractmethod
+from entity.Entity import Entity
 from statisticalDistributions import *
-from Entity import Entity
 
 
 class InventoryEntity(Entity):

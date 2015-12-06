@@ -12,4 +12,9 @@ class Customer(InventoryEntity):
         pass
 
     def connect(self, other):
-        pass
+        self.outputPointer.append(other)
+        other.inputPointer.append(self)
+
+    def setStatDis(self, createStatDis):
+        self.createStatDis = createStatDis
+

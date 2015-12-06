@@ -1,10 +1,11 @@
-from Process import Process
-from Create import Create
-from Dispose import Dispose
 from Decide import Decide
+from Process import Process
+from queueEntity.Dispose import Dispose
+
 from PriorityQueue import PriorityQueue
-from statisticalDistributions import *
 from chartDrawing import *
+from entity.queueEntity.Create import Create
+from statisticalDistributions import *
 
 
 class SimSystem:

@@ -20,30 +20,6 @@ class Entity(object):
         pass
 
 
-"""
-class Queue(Entity):
-
-    def __init__(self, Type, id, delegator, inputId, outputId, name):
-        super(Queue, self).__init__(Type, id, delegator, inputId, outputId)
-        self.name = name
-
-    def do(self):
-        pass
-
-    def takeCustomer(self):
-        pass
-
-    def releaseCustomer(self):
-        pass
-
-    def conect(self, other):
-        pass
-"""
-
-
-
-
-
 
 
 
