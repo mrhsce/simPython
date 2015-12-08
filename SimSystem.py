@@ -10,12 +10,13 @@ from statisticalDistributions import *
 
 class SimSystem:
 
-    def __init__(self, simName, statisticsCollector=0):
+    def __init__(self, simName,simType ,statisticsCollector=0):
         self.entityList = []
         self.eventList = PriorityQueue()
         self.simName = simName
         self.time = 0
         self.logger = statisticsCollector
+        self.simulationType = simType
 
     def addEntity(self, entity):
         self.entityList.append(entity)
@@ -27,27 +28,42 @@ class SimSystem:
         return self.time
 
     def run(self):
+
         print "The simulation has started"
-        for i in self.entityList:
-            if i.getType() == "Create":
-                i.createCustomer()
 
-        while self.eventList.isEmpty() != True:
-            nextEvent = self.eventList.pop()
-            self.time = nextEvent.execTime
-            if nextEvent.params == 0:
-                nextEvent.funcName()   # If does not execute use the object name before
-            else:
-                nextEvent.funcName(nextEvent.params)
+        if(self.simulationType == "queue"):
+            for i in self.entityList:
+                if i.getType() == "Create":
+                    i.createCustomer()
 
-        # Here all the data should be colected for later printing
-        for i in self.entityList:
-            if i.getType() == "Process":
-                tmp = self.logger.getWaiteForAnyCustomerData(i.id)
-                drawWaiteForAnyCustomer(tmp[0], tmp[1],i.name)
+            while self.eventList.isEmpty() != True:
+                nextEvent = self.eventList.pop()
+                self.time = nextEvent.execTime
+                if nextEvent.params == 0:
+                    nextEvent.funcName()   # If does not execute use the object name before
+                else:
+                    nextEvent.funcName(nextEvent.params)
 
-                tmp2 = self.logger.getFrequencyForAnyWaiteData(i.id)
-                drawFrequencyForAnyWaiteData(tmp2[0], tmp2[1],i.name)
+            # Here all the data should be colected for later printing
+            for i in self.entityList:
+                if i.getType() == "Process":
+                    tmp = self.logger.getWaiteForAnyCustomerData(i.id)
+                    drawWaiteForAnyCustomer(tmp[0], tmp[1],i.name)
+
+                    tmp2 = self.logger.getFrequencyForAnyWaiteData(i.id)
+                    drawFrequencyForAnyWaiteData(tmp2[0], tmp2[1],i.name)
+        if(self.simulationType == "inventory"):
+            for i in self.entityList:
+                if i.getType() == "Storage" and i.isCentral == True:
+                    i.start()
+
+            while self.eventList.isEmpty() != True:
+                nextEvent = self.eventList.pop()
+                self.time = nextEvent.execTime
+                if nextEvent.params == 0:
+                    nextEvent.funcName()   # If does not execute use the object name before
+                else:
+                    nextEvent.funcName(nextEvent.params)  #TODO param is not list it shoyld be made a list
 
 
 def generateCreateEntity(simSystem, entityType, entityID, name, statDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
@@ -72,4 +88,12 @@ def generateDisposeEntity(simSystem, entityType, entityID, name, isRecord, input
 
 def generateProcessEntity(simSystem, entityType, entityID, name, customerStatDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
     p = Process(simSystem, entityType, entityID, inputPointer, outputPointer, name, customerStatDis)
+    return p
+
+def generateCustomerEntity(simSystem, entityType, entityID, name, inputPointer=[], outputPointer=[]):
+    p = Customer(simSystem, entityType, entityID, name, inputPointer, outputPointer)
+    return p
+
+def generateStorageEntity(simSystem, entityType, entityID, name, min, max, period, inputPointer=[], outputPointer=[]):
+    p = Storage(simSystem, entityType, entityID, name, min, max, period, inputPointer, outputPointer)
     return p

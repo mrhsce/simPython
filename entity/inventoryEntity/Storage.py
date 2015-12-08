@@ -1,9 +1,11 @@
+from Event import Event
 from InventoryEntity import InventoryEntity
 
 
 class Storage(InventoryEntity):
-    def __init__(self, simSystem, Type, id, inputPointer, outputPointer, min, max, period):
+    def __init__(self, simSystem, Type, id, name, min, max, period, inputPointer, outputPointer):
         super(Storage, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
+        self.name = name
         self.isCentral = False
         self.maxStorage = max   # The total capacity of the storage
         self.minStorage = min  # The threshold for new order
@@ -11,11 +13,21 @@ class Storage(InventoryEntity):
 
         self.storage = 0   # current storage
 
+    def start(self):
+        self.refillStorage()
+
+        for i in self.outputPointer:
+            i.start()
+
     def takeOrder(self, amount,pointer):
-        pass
+        self.storage =- amount
+        self.giveOrder(amount,pointer)
 
     def giveOrder(self, amount,pointer):
-        pass
+        pointer.acceptOrder(amount)
+
+    def acceptOrder(self, amount):
+        self.storage += amount
 
     def connect(self, other):
         self.outputPointer.append(other)
@@ -30,3 +42,17 @@ class Storage(InventoryEntity):
             return self.maxStorage - self.storage
         else:
             return 0
+
+    def refillStorage(self):
+
+        e = Event(self, self.refillStorage,0,
+                          int(round(self.simSystem.getTime() + self.refillPeriod)))
+        self.simSystem.addEvent(e)
+
+        amount = self.calculateOrder()
+        if(amount > 0):
+            if(not self.isCentral):
+                self.inputPointer.takeOrder(amount,self)
+            else:
+                self.storage = self.maxStorage
+
