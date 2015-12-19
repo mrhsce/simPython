@@ -1,5 +1,6 @@
 from Event import Event
 from entity.queueEntity.QueueEntity import QueueEntity
+import Queue
 
 
 class ServiceCenter(QueueEntity):
@@ -10,13 +11,20 @@ class ServiceCenter(QueueEntity):
         self.numberOfCore = numberOfCore
         self.customerDelayStatDis = customerDelayStatDis
         self.name = name
+        self.queue = Queue.Queue()
+
+    def runn(self):
+        while True:
+            if not self.queue.empty():
+                item = self.queue.get()
+                delay = int(round(self.customerDelayStatDis.generate()))
+                params={}
+                params['waite'] = delay + (self.simSystem.getTime() - item) # busy time + time in queue
+                e = Event(self, self.releaseCustomer, params, self.simSystem.getTime() + delay)
+                self.simSystem.addEvent(e)
 
     def takeCustomer(self):
-        delay = int(round(self.customerDelayStatDis.generate()))
-        params={}
-        params['waite'] = delay
-        e = Event(self, self.releaseCustomer, params, self.simSystem.getTime() + delay)
-        self.simSystem.addEvent(e)
+        self.queue.put(self.simSystem.getTime())
         print "ServiceCenter Entity: " + self.name + " has taken one Customer"
 
     def releaseCustomer(self, params):

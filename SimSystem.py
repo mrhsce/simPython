@@ -37,6 +37,8 @@ class SimSystem:
             for i in self.entityList:
                 if i.getType() == "Create":
                     i.createCustomer()
+                if i.getType() == "ServiceCenter":
+                    i.runn()
 
             while self.eventList.isEmpty() != True:
                 nextEvent = self.eventList.pop()
