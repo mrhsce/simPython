@@ -22,6 +22,7 @@ class Decide(QueueEntity):
             print "Decide Entity: " + self.name + " released one customer in False flow"
 
     def calculate(self):
+        import random
         return bool(eval(self.expression))
 
     def connect(self, other):

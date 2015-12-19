@@ -5,7 +5,7 @@ from resultCollector import resultCollector
 r = resultCollector()
 s = SimSystem("sim1", "queue", r)
 c = generateCreateEntity(s, "Create", 1, "Create")
-decide = generateDecideEntity(s, "Decide", 5, "decide", "2*(5-1) != 8")
+decide = generateDecideEntity(s, "Decide", 5, "decide", "random.randint(0,100) < 60")
 p1 = generateProcessEntity(s, "Process", 4, "proc1")
 p2 = generateProcessEntity(s, "Process", 2, "proc2")
 d = generateDisposeEntity(s, "Dispose", 3, "dispose", True)
