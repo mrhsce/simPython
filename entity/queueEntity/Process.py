@@ -1,5 +1,5 @@
 from Event import Event
-from entity.queueEntity import QueueEntity
+from entity.queueEntity.QueueEntity import QueueEntity
 
 
 class Process(QueueEntity):

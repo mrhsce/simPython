@@ -22,8 +22,4 @@ s.addEntity(p1)
 s.addEntity(p2)
 s.addEntity(d)
 
-# r = resultCollector()
-# s = SimSystem("sim1", "queue", r)
-# mainStorage = generateStorageEntity(s, "Storage", 1, "mainStorage", 20, 100, )
-
 s.run()
