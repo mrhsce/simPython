@@ -1,11 +1,12 @@
-from Decide import Decide
-from Process import Process
-from queueEntity.Dispose import Dispose
-
+from entity.queueEntity.Decide import Decide
+from entity.queueEntity.Process import Process
+from entity.queueEntity.Dispose import Dispose
 from PriorityQueue import PriorityQueue
 from chartDrawing import *
 from entity.queueEntity.Create import Create
 from statisticalDistributions import *
+from entity.inventoryEntity.Customer import Customer
+from entity.inventoryEntity.Storage import Storage
 
 
 class SimSystem:
@@ -90,9 +91,11 @@ def generateProcessEntity(simSystem, entityType, entityID, name, customerStatDis
     p = Process(simSystem, entityType, entityID, inputPointer, outputPointer, name, customerStatDis)
     return p
 
+
 def generateCustomerEntity(simSystem, entityType, entityID, name, inputPointer=[], outputPointer=[]):
     p = Customer(simSystem, entityType, entityID, name, inputPointer, outputPointer)
     return p
+
 
 def generateStorageEntity(simSystem, entityType, entityID, name, min, max, period, inputPointer=[], outputPointer=[]):
     p = Storage(simSystem, entityType, entityID, name, min, max, period, inputPointer, outputPointer)
