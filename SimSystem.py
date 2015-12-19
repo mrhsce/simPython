@@ -1,6 +1,7 @@
 from entity.queueEntity.Decide import Decide
 from entity.queueEntity.Process import Process
 from entity.queueEntity.Dispose import Dispose
+from entity.queueEntity.ServiceCenter import ServiceCenter
 from PriorityQueue import PriorityQueue
 from chartDrawing import *
 from entity.queueEntity.Create import Create
@@ -80,6 +81,11 @@ def generateDecideEntity(simSystem, entityType, entityID, name, expression, inpu
 def generateDisposeEntity(simSystem, entityType, entityID, name, isRecord, inputPointer=[], outputPointer=[]):
     d = Dispose(simSystem, entityType, entityID, inputPointer, outputPointer, name, isRecord)
     return d
+
+
+def generateServiceCenterEntity(simSystem, entityType, entityID, name, numberOfCore, statDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
+    s = ServiceCenter(simSystem, entityType, entityID, inputPointer, outputPointer, name, numberOfCore, statDis)
+    return s
 
 
 # def generateQueueEntity(simSystem, entityType, entityID, name, inputPointer=0, outputPointer=0):
