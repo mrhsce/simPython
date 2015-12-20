@@ -2,6 +2,7 @@ from entity.queueEntity.Decide import Decide
 from entity.queueEntity.Process import Process
 from entity.queueEntity.Dispose import Dispose
 from entity.queueEntity.ServiceCenter import ServiceCenter
+from entity.queueEntity.MyQueue import MyQueue
 from PriorityQueue import PriorityQueue
 from chartDrawing import *
 from entity.queueEntity.Create import Create
@@ -37,8 +38,6 @@ class SimSystem:
             for i in self.entityList:
                 if i.getType() == "Create":
                     i.createCustomer()
-                if i.getType() == "ServiceCenter":
-                    i.runn()
 
             while self.eventList.isEmpty() != True:
                 nextEvent = self.eventList.pop()
@@ -70,41 +69,54 @@ class SimSystem:
                     nextEvent.funcName(nextEvent.params)  #TODO param is not list it shoyld be made a list
 
 
-def generateCreateEntity(simSystem, entityType, entityID, name, statDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
-    c = Create(simSystem, entityType, entityID, inputPointer, outputPointer, name, statDis)
+        for i in self.entityList:
+                if i.getType() == "ServiceCenter":
+                    print i.inn, i.outt
+
+
+simSystemObj = None
+
+
+def setSimSystem(simSys):
+    global simSystemObj
+    simSystemObj = simSys
+
+
+def generateCreateEntity(entityID, name, statDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
+    c = Create(simSystemObj, "Create", entityID, inputPointer, outputPointer, name, statDis)
     return c
 
 
-def generateDecideEntity(simSystem, entityType, entityID, name, expression, inputPointer=[], outputPointer=[]):
-    d = Decide(simSystem, entityType, entityID, inputPointer, outputPointer, name, expression)
+def generateDecideEntity(entityID, name, expression, inputPointer=[], outputPointer=[]):
+    d = Decide(simSystemObj, "Decide", entityID, inputPointer, outputPointer, name, expression)
     return d
 
 
-def generateDisposeEntity(simSystem, entityType, entityID, name, isRecord, inputPointer=[], outputPointer=[]):
-    d = Dispose(simSystem, entityType, entityID, inputPointer, outputPointer, name, isRecord)
+def generateDisposeEntity(entityID, name, isRecord, inputPointer=[], outputPointer=[]):
+    d = Dispose(simSystemObj, "Dispose", entityID, inputPointer, outputPointer, name, isRecord)
     return d
 
 
-def generateServiceCenterEntity(simSystem, entityType, entityID, name, numberOfCore, statDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
-    s = ServiceCenter(simSystem, entityType, entityID, inputPointer, outputPointer, name, numberOfCore, statDis)
+def generateServiceCenterEntity(entityID, name, numberOfCore, statDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
+    s = ServiceCenter(simSystemObj, "ServiceCenter", entityID, inputPointer, outputPointer, name, numberOfCore, statDis)
     return s
 
 
-# def generateQueueEntity(simSystem, entityType, entityID, name, inputPointer=0, outputPointer=0):
-#    q = Queue(simSystem, entityType, entityID, inputPointer, outputPointer, name)
-#    return q
+def generateMyQueueEntity(entityID, name, inputPointer=[], outputPointer=[]):
+    q = MyQueue(simSystemObj, "MyQueue", entityID, inputPointer, outputPointer, name)
+    return q
 
 
-def generateProcessEntity(simSystem, entityType, entityID, name, customerStatDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
-    p = Process(simSystem, entityType, entityID, inputPointer, outputPointer, name, customerStatDis)
+def generateProcessEntity(entityID, name, customerStatDis=UniformDis(1, 10), inputPointer=[], outputPointer=[]):
+    p = Process(simSystemObj, "Process", entityID, inputPointer, outputPointer, name, customerStatDis)
     return p
 
 
-def generateCustomerEntity(simSystem, entityType, entityID, name, inputPointer=[], outputPointer=[]):
-    p = Customer(simSystem, entityType, entityID, name, inputPointer, outputPointer)
+def generateCustomerEntity(entityID, name, inputPointer=[], outputPointer=[]):
+    p = Customer(simSystemObj, "Customer", entityID, name, inputPointer, outputPointer)
     return p
 
 
-def generateStorageEntity(simSystem, entityType, entityID, name, min, max, period, inputPointer=[], outputPointer=[]):
-    p = Storage(simSystem, entityType, entityID, name, min, max, period, inputPointer, outputPointer)
+def generateStorageEntity(entityID, name, min, max, period, inputPointer=[], outputPointer=[]):
+    p = Storage(simSystemObj, "Storage", entityID, name, min, max, period, inputPointer, outputPointer)
     return p

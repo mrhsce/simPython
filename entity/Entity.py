@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 from statisticalDistributions import *
-
+import copy
 
 class Entity(object):
     __metaclass__ = ABCMeta
@@ -9,8 +9,8 @@ class Entity(object):
         self.type = Type
         self.simSystem = simSystem
         self.id = id
-        self.inputPointer = inputPointer
-        self.outputPointer = outputPointer        
+        self.inputPointer = copy.deepcopy(inputPointer)
+        self.outputPointer = copy.deepcopy(outputPointer)
 
     def getType(self):
         return self.type

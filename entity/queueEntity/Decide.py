@@ -4,8 +4,7 @@ from entity.queueEntity.QueueEntity import QueueEntity
 class Decide(QueueEntity):
 
     def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, expression):
-        super(Decide, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
-        self.name = name
+        super(Decide, self).__init__(simSystem, Type, id, inputPointer, outputPointer, name)
         self.expression = expression
 
     def takeCustomer(self):

@@ -11,7 +11,6 @@ class resultCollector(object):
         self.dic[entityId] = []
 
     def setWaiteTime(self, entityId, waite):
-        print entityId, waite
         self.dic[entityId].append(waite)
 
     def getWaiteForAnyCustomerData(self, entityId):

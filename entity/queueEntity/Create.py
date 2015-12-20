@@ -5,10 +5,8 @@ from entity.queueEntity.QueueEntity import QueueEntity
 class Create(QueueEntity):
 
     def __init__(self, simSystem, Type, id, inputPointer, outputPointer, name, createStatDis):
-        super(Create, self).__init__(simSystem, Type, id, inputPointer, outputPointer)
-        self.name = name
+        super(Create, self).__init__(simSystem, Type, id, inputPointer, outputPointer, name)
         self.createStatDis = createStatDis
-
         self.count = 0
         self.maxCount = -1
 
