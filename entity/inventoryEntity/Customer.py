@@ -10,26 +10,31 @@ class Customer(InventoryEntity):
         self.orderFreqStatDist = 0
 
     def start(self):
+        print self.name + " has been started"
         e = Event(self, self.giveOrder,int(round(self.orderAmountStatDist.generate())),
                           int(round(self.simSystem.getTime() + self.orderFreqStatDist.generate())))
         self.simSystem.addEvent(e)
 
     def acceptOrder(self, amount):
-        print "order containing "+str(amount)+" items has been recieved"
+        print self.name + " order containing "+str(amount)+" items has been recieved"
 
     def giveOrder(self, amount):
-        self.inputPointer.takeOrder(amount,self)
+        self.inputPointer[0].takeOrder(amount,self)
         e = Event(self, self.giveOrder,int(round(self.orderAmountStatDist.generate())),
                           int(round(self.simSystem.getTime() + self.orderFreqStatDist.generate())))
         self.simSystem.addEvent(e)
 
     def connect(self, other):
-        self.outputPointer.append(other)
-        other.inputPointer.append(self)
+       self.outputPointer.append(other)
+       print "reached here"
+       other.inputPointer.append(self)
 
     def setStatDis(self, orderAmountStatDist,orderFreqStatDist):
-        self.orderStatDist = orderAmountStatDist
+        self.orderAmountStatDist = orderAmountStatDist
         self.orderFreqStatDist = orderFreqStatDist
+
+    def takeOrder(self, amount,pointer):
+        pass
 
 
 

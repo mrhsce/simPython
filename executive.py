@@ -2,6 +2,8 @@
 from SimSystem import *
 from resultCollector import resultCollector
 
+# Network queue part
+#<<<<<<<<<<<<<<<<<<<<<<<<<
 r = resultCollector()
 s = SimSystem("sim1", "queue", r)
 setSimSystem(s)
@@ -19,9 +21,23 @@ s.addEntity(c)
 s.addEntity(queue)
 s.addEntity(p1)
 s.addEntity(d)
+#>>>>>>>>>>>>>>>>>>>>>>>>
 
+
+# Inventory system part
+#<<<<<<<<<<<<<<<<<<<<<<<<
 # r = resultCollector()
-# s = SimSystem("sim1", "queue", r)
-# mainStorage = generateStorageEntity(s, "Storage", 1, "mainStorage", 20, 100, )
+# s = SimSystem("sim1", "inventory", r)
+# setSimSystem(s)
+# mainStorage = generateStorageEntity(1, "Storage",20, 100,5 )
+# mainStorage.setCentral(True)
+# customer1 = generateCustomerEntity(2,"customer1")
+# customer1.setStatDis(ConstantDis(2),ConstantDis(3))
+#
+# mainStorage.connect(customer1)
+#
+# s.addEntity(mainStorage)
+# s.addEntity(customer1)
+#>>>>>>>>>>>>>>>>>>>>>>>>
 
 s.run()

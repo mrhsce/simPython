@@ -1,7 +1,7 @@
 """ Here definitions and attributes of all statistical distributions that are used in the simulation are defined"""
 from abc import ABCMeta, abstractmethod
 import random
-import np
+#import np
 
 
 class StatDis(object):

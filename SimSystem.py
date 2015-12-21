@@ -4,7 +4,7 @@ from entity.queueEntity.Dispose import Dispose
 from entity.queueEntity.ServiceCenter import ServiceCenter
 from entity.queueEntity.MyQueue import MyQueue
 from PriorityQueue import PriorityQueue
-from chartDrawing import *
+#from chartDrawing import *
 from entity.queueEntity.Create import Create
 from statisticalDistributions import *
 from entity.inventoryEntity.Customer import Customer
